@@ -1,4 +1,4 @@
-libtf_idf
+libtfidf
 =========
 
-Java library for performing tf-idf on data sets.
+Java library for performing [tf-idf](https://en.wikipedia.org/wiki/tf-idf) on data sets.
