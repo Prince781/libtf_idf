@@ -11,6 +11,8 @@ import java.util.regex.*;
  */
 public class Analysis {
 	private Document[] docs;
+	private TreeMap<Integer,String> histTree[]; // sort by frequency
+	private HashMap<String,Integer> histMap[]; // lookup frequency by word
 	
 	/**
 	 * Creates a new Analysis from a collection of documents (corpus).
@@ -18,6 +20,8 @@ public class Analysis {
 	 */
 	public Analysis(Document... corpus) {
 		docs = corpus;
+		histTree = new TreeMap[corpus.length];
+		histMap = new HashMap[corpus.length];
 	}
 	
 	private int numMatches(String word, String corpus) {
@@ -40,16 +44,24 @@ public class Analysis {
 		Document doc = docs[document];
 		String words[] = doc.getWords(),
 				text = "" + doc;
-		TreeMap<Integer,String> hist = new TreeMap<>();
+		
+		if (histTree[document] == null)
+			histTree[document] = new TreeMap<>();
+		if (histMap[document] == null)
+			histMap[document] = new HashMap<>();
 		
 		double f = 0, f_max = 0;
-		for (String word : words) {
-			if (hist.containsValue(word)) continue;
-			int n = numMatches(word, text);
-			hist.put(n, word);
-			if (word.equals(phrase)) f = n;
-			if (n > f_max) f_max = n;
-		}
+		for (String word : words)
+			if (!histTree[document].containsValue(word)) {
+				int n;
+				histTree[document].put(n = numMatches(word,text), word);
+			
+				if (!histMap[document].containsKey(word))
+					histMap[document].put(word, n);
+			}
+		
+		f_max = histTree[document].firstKey(); // get most-prevalent word
+		f = histMap[document].get(phrase); // get frequency of phrase
 		
 		return 0.5 + (0.5 * f) / f_max;
 	}
@@ -66,7 +78,7 @@ public class Analysis {
 		for (Document d : docs)
 			if ((""+d).contains(phrase)) D++;
 		
-		return Math.log((double) docs.length / (1.0 + D));
+		return Math.log((double) docs.length / (D == 0 ? 1.0 : D));
 	}
 	
 	/**
