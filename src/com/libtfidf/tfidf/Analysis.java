@@ -24,12 +24,11 @@ public class Analysis {
 		histMap = new HashMap[corpus.length];
 	}
 	
-	private int numMatches(String word, String corpus) {
+	private int numMatches(String word, String[] words) {
 		int n = 0;
-		Pattern p = Pattern.compile(word);
-		Matcher m = p.matcher(corpus);
 		
-		while (m.find()) n++;
+		for (String w : words)
+			if (w.equals(word)) n++;
 		
 		return n;
 	}
@@ -42,8 +41,7 @@ public class Analysis {
 	 */
 	public double termFrequency(String phrase, int document) {
 		Document doc = docs[document];
-		String words[] = doc.getWords(),
-				text = "" + doc;
+		String words[] = doc.getWords();
 		
 		if (histTree[document] == null)
 			histTree[document] = new TreeMap<>();
@@ -54,13 +52,13 @@ public class Analysis {
 		for (String word : words)
 			if (!histTree[document].containsValue(word)) {
 				int n;
-				histTree[document].put(n = numMatches(word,text), word);
+				histTree[document].put(n = numMatches(word,words), word);
 			
 				if (!histMap[document].containsKey(word))
 					histMap[document].put(word, n);
 			}
 		
-		f_max = histTree[document].firstKey(); // get most-prevalent word
+		f_max = histTree[document].lastKey(); // get most-prevalent word
 		f = histMap[document].get(phrase); // get frequency of phrase
 		
 		return 0.5 + (0.5 * f) / f_max;
@@ -74,11 +72,11 @@ public class Analysis {
 	 * @return
 	 */
 	public double inverseDocumentFrequency(String phrase) {
-		double D = 0;
+		double D = 1;
 		for (Document d : docs)
 			if ((""+d).contains(phrase)) D++;
 		
-		return Math.log((double) docs.length / (D == 0 ? 1.0 : D));
+		return Math.log((double) docs.length / D);
 	}
 	
 	/**
