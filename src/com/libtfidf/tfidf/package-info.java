@@ -2,4 +2,4 @@
  * Functionality for tf-idf analysis.
  * @author Princeton Ferro
  */
-package com.libtf_idf.tfidf;
+package com.libtfidf.tfidf;

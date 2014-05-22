@@ -6,12 +6,12 @@
  * May 2014 
 ***********************************************************/
 
-package com.libtf_idf.test;
+package com.libtfidf.test;
 
 public class Demo {
 
 	public static void main(String[] args) {
-
+		
 	}
 
 }

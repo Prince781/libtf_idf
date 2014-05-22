@@ -1,6 +1,6 @@
-package com.libtf_idf.tfidf;
+package com.libtfidf.tfidf;
 
-import com.libtf_idf.doc.Document;
+import com.libtfidf.doc.Document;
 
 public class Analysis {
 	private Document doc;
