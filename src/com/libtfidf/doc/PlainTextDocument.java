@@ -10,9 +10,8 @@ public class PlainTextDocument extends Document {
 		file = new File(fname);
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		
-		char c;
-		while ((c = (char) br.read()) != -1)
-			text += c;
+		for (int c; (c = br.read()) != -1;)
+			text += (char) c;
 		
 		br.close();
 	}
