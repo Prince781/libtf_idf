@@ -2,6 +2,10 @@ package com.libtfidf.doc;
 
 import java.io.*;
 
+/**
+ * A specific Document from a plain-text file.
+ * @author Princeton Ferro
+ */
 public class PlainTextDocument extends Document {
 	private File file;
 	private String text = "";

@@ -13,6 +13,9 @@ import java.io.*;
 import com.libtfidf.doc.*;
 import com.libtfidf.tfidf.Analysis;
 
+/**
+ * Tests some methods of this library.
+ */
 public class Demo {
 
 	public static void main(String[] args) throws IOException {
