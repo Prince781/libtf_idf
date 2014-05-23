@@ -4,7 +4,7 @@ public abstract class Document {
 	/**
 	 * Gets the terms (terms are alphanumeric and separated by spaces) in the
 	 * document, without regard to punctuation
-	 * @return
+	 * @return A list of words
 	 */
 	public abstract String[] getWords();
 	

@@ -1,0 +1,40 @@
+<project name="libtfidf" basedir=".">
+	<description>libtfidf build file</description>
+	<!-- global properties -->
+	<property name="src" location="src"/>
+	<property name="bin" location="bin"/>
+	<property name="jarfile" location="libtfidf.jar"/>
+	<property name="javadoc" location="javadoc"/>
+	<property name="java" value="1.8"/> <!-- version of Java -->
+
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${bin}"/>
+		<mkdir dir="${javadoc}"/>
+	</target>
+
+	<target name="compile" depends="init" description="Compile libtfidf">
+		<javac srcdir="${src}" destdir="${bin}" source="${java}" debug="on"/>
+	</target>
+
+	<target name="test" depends="compile" description="Jar libtfidf">
+		<jar jarfile="${jarfile}" basedir="${bin}">
+			<fileset dir="." includes="LICENSE"/>
+			<manifest>
+				<attribute name="Built-By" value="${user.name}"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="javadoc" description="Documentation for libtfidf">
+		<javadoc sourcepath="${src}" destdir="${javadoc}" author="true" version="true" windowtitle="LibTFIDF">
+			<link href="http://docs.oracle.com/javase/8/docs/api/"/>
+		</javadoc>
+	</target>
+
+	<target name="clean">
+		<delete file="${jarfile}"/>
+		<delete dir="${bin}"/>
+		<delete dir="${javadoc}"/>
+	</target>
+</project>

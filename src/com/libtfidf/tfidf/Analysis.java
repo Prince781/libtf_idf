@@ -21,7 +21,7 @@ public class Analysis {
 	
 	/**
 	 * Creates a new Analysis from a collection of documents (corpus).
-	 * @param docs
+	 * @param corpus A list of documents.
 	 */
 	public Analysis(Document... corpus) {
 		docs = corpus;
@@ -76,7 +76,7 @@ public class Analysis {
 	 * Gets the inverse document frequency for a phrase among all documents in
 	 * the corpus.
 	 * @param phrase The phrase to look for
-	 * @return
+	 * @return An IDF coefficient
 	 */
 	public double inverseDocumentFrequency(String phrase) {
 		double D = 0;
@@ -99,7 +99,7 @@ public class Analysis {
 	
 	/**
 	 * Gets all documents in the corpus.
-	 * @return
+	 * @return A list of documents
 	 */
 	public Document[] getCorpus() {
 		return docs;
@@ -108,7 +108,7 @@ public class Analysis {
 	/**
 	 * Gets a specific document in the corpus.
 	 * @param i The index of the document.
-	 * @return
+	 * @return A document
 	 */
 	public Document getDocument(int i) {
 		return docs[i];
