@@ -10,6 +10,11 @@ import java.util.regex.*;
  * @author Princeton Ferro
  */
 public class Analysis {
+	/**
+	 * Common words to reject in our analysis of term frequency.
+	 */
+	public static final ArrayList<String> discards = new ArrayList<String>(
+			Arrays.asList("the", "a", "of", "I", "it"));
 	private Document[] docs;
 	private TreeMap<Integer,String> histTree[]; // sort by frequency
 	private HashMap<String,Integer> histMap[]; // lookup frequency by word
@@ -50,7 +55,8 @@ public class Analysis {
 		
 		double f = 0, f_max = 0;
 		for (String word : words)
-			if (!histTree[document].containsValue(word)) {
+			if (!histTree[document].containsValue(word)
+					&& !discards.contains(word)) {
 				int n;
 				histTree[document].put(n = numMatches(word,words), word);
 			
@@ -59,9 +65,10 @@ public class Analysis {
 			}
 		
 		f_max = histTree[document].lastKey(); // get most-prevalent word
-		f = histMap[document].get(phrase); // get frequency of phrase
+		if (histMap[document].containsKey(phrase))
+			f = histMap[document].get(phrase); // get frequency of phrase
 		
-		return 0.5 + (0.5 * f) / f_max;
+		return (0.5 * f) / f_max;
 	}
 	
 
@@ -72,7 +79,7 @@ public class Analysis {
 	 * @return
 	 */
 	public double inverseDocumentFrequency(String phrase) {
-		double D = 1;
+		double D = 0;
 		for (Document d : docs)
 			if ((""+d).contains(phrase)) D++;
 		

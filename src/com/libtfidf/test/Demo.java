@@ -23,7 +23,7 @@ public class Demo {
 		docs[0] = new PlainTextDocument("test1.txt");
 		docs[1] = new PlainTextDocument("test2.txt");
 		
-		String w = "idea";
+		String w = "something"; // our query
 		
 		Analysis an = new Analysis(docs);
 		double tfidf1 = an.tfIDF(w, 0);
