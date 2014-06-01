@@ -79,10 +79,10 @@ public class Analysis {
 	 * @return An IDF coefficient
 	 */
 	public double inverseDocumentFrequency(String phrase) {
-		double D = 0;
+		double D = 0, a = 1/(D+1);
 		for (Document d : docs)
-			if ((""+d).contains(phrase)) D++;
-		
+			if (Arrays.asList(d.getWords()).contains(phrase)) D++;
+		D = (a+D>docs.length && D!=0 ? D : a+D);
 		return Math.log((double) docs.length / D);
 	}
 	

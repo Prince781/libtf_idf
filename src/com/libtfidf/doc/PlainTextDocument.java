@@ -11,7 +11,11 @@ public class PlainTextDocument extends Document {
 	private String text = "";
 	
 	public PlainTextDocument(String fname) throws IOException {
-		file = new File(fname);
+		this(new File(fname));
+	}
+	
+	public PlainTextDocument(File docFile) throws IOException {
+		file = docFile;
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		
 		for (int c; (c = br.read()) != -1;)
@@ -19,6 +23,7 @@ public class PlainTextDocument extends Document {
 		
 		br.close();
 	}
+	
 	@Override
 	public String[] getWords() {
 		return text.split("\\W+");
