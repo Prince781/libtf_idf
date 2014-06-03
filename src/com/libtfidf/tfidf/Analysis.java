@@ -68,7 +68,7 @@ public class Analysis {
 		if (histMap[document].containsKey(phrase))
 			f = histMap[document].get(phrase); // get frequency of phrase
 		
-		return (0.5 * f) / f_max;
+		return 0.5 + 0.5*f / f_max;
 	}
 	
 
