@@ -9,6 +9,7 @@
 package com.libtfidf.test;
 
 import java.io.*;
+import java.net.URISyntaxException;
 
 import com.libtfidf.doc.*;
 import com.libtfidf.tfidf.Analysis;
@@ -18,19 +19,23 @@ import com.libtfidf.tfidf.Analysis;
  */
 public class Demo {
 
-	public static void main(String[] args) throws IOException {
-		PlainTextDocument[] docs = new PlainTextDocument[2];
-		docs[0] = new PlainTextDocument("test1.txt");
-		docs[1] = new PlainTextDocument("test2.txt");
+	public static void main(String[] args) throws IOException,
+			URISyntaxException {
+		PlainTextDocument[] docs = new PlainTextDocument[] {
+			new PlainTextDocument(new File("data/apache.txt")),
+			new PlainTextDocument(new File("data/gplv2.txt")),
+			new PlainTextDocument(new File("data/gplv3.txt")),
+			new PlainTextDocument(new File("data/mit.txt")),
+			new PlainTextDocument(new File("data/mozilla.txt"))
+		};
 		
-		String w = "something"; // our query
+		String w = "mozilla"; // our query
+		System.out.println("Query: "+w);
 		
 		Analysis an = new Analysis(docs);
-		double tfidf1 = an.tfIDF(w, 0);
-		double tfidf2 = an.tfIDF(w, 1);
-		
-		System.out.printf("Search for \"%s\": doc1 - %f, doc2 - %f\n",
-				w, tfidf1, tfidf2);
+		for (int i = 0; i<docs.length; i++)
+			System.out.printf("tfidf(%s) = %f\n", docs[i].getFile().getName(),
+					an.tfIDF(w, i));
 	}
 
 }

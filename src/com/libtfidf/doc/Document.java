@@ -2,8 +2,8 @@ package com.libtfidf.doc;
 
 public abstract class Document {
 	/**
-	 * Gets the terms (terms are alphanumeric and separated by spaces) in the
-	 * document, without regard to punctuation
+	 * Gets the terms (terms are alphanumeric and separated by spaces) in
+	 * the document, without regard to punctuation
 	 * @return A list of words
 	 */
 	public abstract String[] getWords();
@@ -11,6 +11,5 @@ public abstract class Document {
 	/**
 	 * Converts this document to a String.
 	 */
-	@Override
 	public abstract String toString();
 }

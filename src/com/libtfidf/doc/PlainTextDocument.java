@@ -1,6 +1,10 @@
 package com.libtfidf.doc;
 
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.*;
+import java.nio.file.*;
 
 /**
  * A specific Document from a plain-text file.
@@ -9,29 +13,38 @@ import java.io.*;
 public class PlainTextDocument extends Document {
 	private File file;
 	private String text = "";
+	private String[] words;
 	
-	public PlainTextDocument(String fname) throws IOException {
+	/**
+	 * Creates a new plain text document from a file name.
+	 * @param fname File location.
+	 */
+	public PlainTextDocument(String fname) throws IOException,
+			URISyntaxException {
 		this(new File(fname));
 	}
 	
-	public PlainTextDocument(File docFile) throws IOException {
+	/**
+	 * Creates a new plain text document from a file.
+	 * @param docFile
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
+	public PlainTextDocument(File docFile) throws IOException,
+			URISyntaxException {
 		file = docFile;
-		BufferedReader br = new BufferedReader(new FileReader(file));
-		
-		for (int c; (c = br.read()) != -1;)
-			text += (char) c;
-		
-		br.close();
+		String fname = "file://"+file.getAbsolutePath();
+		byte[] data = Files.readAllBytes(Paths.get(new URI(fname)));
+		text = new String(data, Charset.defaultCharset());
+		words = text.split("\\W+");
 	}
 	
-	@Override
-	public String[] getWords() {
-		return text.split("\\W+");
-	}
-
-	@Override
-	public String toString() {
-		return text;
-	}
-
+	public String[] getWords() { return words; }
+	
+	/**
+	 * Gets the file relevant to this document.
+	 */
+	public File getFile() { return file; }
+	
+	public String toString() { return text; }
 }
