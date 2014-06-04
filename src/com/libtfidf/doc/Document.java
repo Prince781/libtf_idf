@@ -1,15 +1,21 @@
 package com.libtfidf.doc;
 
+import java.util.*;
+
+/**
+ * A document to read from.
+ * @author Princeton Ferro
+ */
 public abstract class Document {
 	/**
-	 * Gets the terms (terms are alphanumeric and separated by spaces) in
-	 * the document, without regard to punctuation
-	 * @return A list of words
+	 * Gets all terms, mapped to frequency in document.
+	 * @return A histogram of terms to frequency.
 	 */
-	public abstract String[] getWords();
+	public abstract HashMap<String,Integer> getTerms();
 	
 	/**
-	 * Converts this document to a String.
+	 * Gets all plain text of this document.
+	 * @return Plain text of the document.
 	 */
-	public abstract String toString();
+	public abstract String getText();
 }

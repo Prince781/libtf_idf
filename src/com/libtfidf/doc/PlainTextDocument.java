@@ -1,50 +1,38 @@
 package com.libtfidf.doc;
 
+import java.util.*;
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.*;
-import java.nio.file.*;
 
 /**
- * A specific Document from a plain-text file.
+ * A plain text document.
  * @author Princeton Ferro
  */
 public class PlainTextDocument extends Document {
-	private File file;
-	private String text = "";
-	private String[] words;
+	private HashMap<String,Integer> map;
+	private String text;
 	
-	/**
-	 * Creates a new plain text document from a file name.
-	 * @param fname File location.
-	 */
-	public PlainTextDocument(String fname) throws IOException,
-			URISyntaxException {
-		this(new File(fname));
+	public PlainTextDocument(String path) throws IOException {
+		this(new File(path));
 	}
 	
-	/**
-	 * Creates a new plain text document from a file.
-	 * @param docFile
-	 * @throws IOException
-	 * @throws URISyntaxException
-	 */
-	public PlainTextDocument(File docFile) throws IOException,
-			URISyntaxException {
-		file = docFile;
-		String fname = "file://"+file.getAbsolutePath();
-		byte[] data = Files.readAllBytes(Paths.get(new URI(fname)));
-		text = new String(data, Charset.defaultCharset());
-		words = text.split("\\W+");
+	public PlainTextDocument(File f) throws IOException {
+		FileInputStream fis = new FileInputStream(f);
+		byte[] data = new byte[(int)f.length()];
+		fis.read(data);
+		fis.close();
+		
+		text = new String(data, "UTF-8"); // TODO: tailor charset for file
+		String[] wrds = text.split("\\W+");
+		map = new HashMap<>();
+		
+		for (String word : wrds)
+			if (!word.isEmpty())
+				map.put(word, map.containsKey(word) ? map.get(word)+1 : 1);
 	}
 	
-	public String[] getWords() { return words; }
-	
-	/**
-	 * Gets the file relevant to this document.
-	 */
-	public File getFile() { return file; }
-	
-	public String toString() { return text; }
+	@Override
+	public HashMap<String, Integer> getTerms() { return map; }
+
+	@Override
+	public String getText() { return text; }
 }

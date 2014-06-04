@@ -1,41 +1,34 @@
-/**********************************************************
- * libtf_idf
- * Library for performing term frequency - inverse document
- * frequency on large data sets.
- * @author Princeton Ferro
- * May 2014 
-***********************************************************/
-
 package com.libtfidf.test;
 
-import java.io.*;
-import java.net.URISyntaxException;
-
 import com.libtfidf.doc.*;
-import com.libtfidf.tfidf.Analysis;
+import com.libtfidf.analysis.*;
+import java.io.*;
+import java.util.*;
 
 /**
- * Tests some methods of this library.
+ * A main class demoing tfidf.
+ * @author Princeton Ferro
  */
 public class Demo {
 
-	public static void main(String[] args) throws IOException,
-			URISyntaxException {
-		PlainTextDocument[] docs = new PlainTextDocument[] {
-			new PlainTextDocument(new File("data/apache.txt")),
-			new PlainTextDocument(new File("data/gplv2.txt")),
-			new PlainTextDocument(new File("data/gplv3.txt")),
-			new PlainTextDocument(new File("data/mit.txt")),
-			new PlainTextDocument(new File("data/mozilla.txt"))
-		};
+	public static void main(String[] args) throws IOException {
+		if (args.length == 0) {
+			System.out.println("You must enter texts to analyze.");
+			System.exit(1);
+		}
 		
-		String w = "mozilla"; // our query
-		System.out.println("Query: "+w);
+		Document[] docs = new PlainTextDocument[args.length];
+		for (int i=0; i<args.length; i++)
+			docs[i] = new PlainTextDocument(args[i]);
 		
 		Analysis an = new Analysis(docs);
-		for (int i = 0; i<docs.length; i++)
-			System.out.printf("tfidf(%s) = %f\n", docs[i].getFile().getName(),
-					an.tfIDF(w, i));
+		
+		Scanner in = new Scanner(System.in);
+		System.out.print("Enter a search term: ");
+		String term = in.next("\\w+");
+		for (int i=0; i<docs.length; i++)
+			System.out.printf("tfidf(\"%s\") = %f\n", args[i], an.tf(term, i));
+		in.close();
 	}
 
 }

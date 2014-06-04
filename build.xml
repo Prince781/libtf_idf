@@ -22,6 +22,7 @@
 			<fileset dir="." includes="LICENSE"/>
 			<manifest>
 				<attribute name="Built-By" value="${user.name}"/>
+				<attribute name="Main-Class" value="com.libtfidf.test.Demo"/>
 			</manifest>
 		</jar>
 	</target>
