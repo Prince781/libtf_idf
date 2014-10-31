@@ -27,7 +27,7 @@ public class Demo {
 		System.out.print("Enter a search term: ");
 		String term = in.next("\\w+");
 		for (int i=0; i<docs.length; i++)
-			System.out.printf("tfidf(\"%s\") = %f\n", args[i], an.tf(term, i));
+			System.out.printf("tfidf(\"%s\") = %f\n", args[i], an.tfidf(term, i));
 		in.close();
 	}
 

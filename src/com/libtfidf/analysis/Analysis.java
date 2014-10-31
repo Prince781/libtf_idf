@@ -21,7 +21,7 @@ public class Analysis {
 		ignore = new ArrayList<>();
 		
 		// populate
-		ignore.addAll(Arrays.asList("the","a","of"));
+		// ignore.addAll(Arrays.asList("the","a","of"));
 	}
 	
 	/**
@@ -42,7 +42,7 @@ public class Analysis {
 	
 	/**
 	 * Performs inverse document frequency on the corpus.
-	 * @param phrase THe phrase to look for.
+	 * @param phrase The phrase to look for.
 	 * @return An idf value
 	 */
 	public double idf(String phrase) {
@@ -50,7 +50,9 @@ public class Analysis {
 		for (Document doc : corpus)
 			if (doc.getTerms().containsKey(phrase)) D++;
 		
-		return Math.log(corpus.length / (1 + D));
+		if (D == 0)
+			return 0;
+		return Math.log(corpus.length / D);
 	}
 	
 	/**
@@ -60,6 +62,10 @@ public class Analysis {
 	 * @return A tfidf value
 	 */
 	public double tfidf(String phrase, int d) {
-		return tf(phrase,d) * idf(phrase);
+		double tf = tf(phrase,d);
+		
+		if (tf != 0)
+			return tf * idf(phrase);
+		return 0;
 	}
 }
